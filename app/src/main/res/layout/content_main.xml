@@ -22,11 +22,6 @@
         android:layout_marginBottom="61dp"
         android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <Button
             android:id="@+id/btn_comenzar"
             android:layout_width="178dp"

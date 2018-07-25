@@ -2,4 +2,10 @@
     <string name="app_name">MuseUI</string>
     <string name="action_settings">Settings</string>
     <string name="btn_comenzar">Comenzar</string>
+    <string name="tv_status">Status de conexión:</string>
+    <string name="tv_status_value_desconocido">Desconocido</string>
+    <string name="tv_status_value_conectado">Conectado</string>
+    <string name="tv_status_value_desconectado">Desconectado</string>
+    <string name="accelerometer_init">0.0</string>
+    <string name="btn_detener_reanudar">Detener/Reanudar</string>
 </resources>
