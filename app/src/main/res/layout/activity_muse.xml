@@ -31,12 +31,14 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/btn_actualizar"
                 android:background="@color/bg_btn_actualizar_conectar"
                 android:src="@drawable/baseline_autorenew_black_36"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/btn_conectar_desconectar"
                 android:background="@color/bg_btn_actualizar_conectar"
                 android:src="@drawable/baseline_power_settings_new_black_36"/>
 
@@ -50,6 +52,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtv_status_lb"
                 android:layout_weight="1"
                 android:text="@string/tv_status"
                 android:textSize="16sp"/>
@@ -57,6 +60,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/txtv_status"
                 android:layout_weight="1"
                 android:text="@string/tv_status_value_desconocido"
                 android:textSize="16sp"/>
@@ -71,6 +75,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/acc_x"
                 android:layout_weight="1"
                 android:text="@string/accelerometer_init"
                 android:textSize="16sp"/>
@@ -78,6 +83,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/acc_y"
                 android:layout_weight="1"
                 android:text="@string/accelerometer_init"
                 android:textSize="16sp"/>
@@ -85,13 +91,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/accelerometer_init"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/acc_z"
                 android:layout_weight="1"
                 android:text="@string/accelerometer_init"
                 android:textSize="16sp"/>
@@ -108,6 +108,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/btn_detener_reanudar"
             android:text="@string/btn_detener_reanudar"
             android:textSize="16sp" />
 

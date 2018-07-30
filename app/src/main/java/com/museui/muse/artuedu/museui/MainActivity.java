@@ -16,22 +16,10 @@ import com.choosemuse.libmuse.MuseManagerAndroid;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * MuseManager sera la forma de comunicacion para tetectar nuevas headbands y recibir datos
-     * cuando la lista de headbands diponibles cambie.
-     */
-    private MuseManagerAndroid manager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Es necesario establecer un contexto en MuseManagerAndroid antes de cualquier cosa.
-        // Proveniente de otra LibMuse API invocada tambien en la libreria.
-        manager = MuseManagerAndroid.getInstance();
-        manager.setContext(this);
-        //manager.setMuseListener(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

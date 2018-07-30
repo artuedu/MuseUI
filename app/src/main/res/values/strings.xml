@@ -8,4 +8,7 @@
     <string name="tv_status_value_desconectado">Desconectado</string>
     <string name="accelerometer_init">0.0</string>
     <string name="btn_detener_reanudar">Detener/Reanudar</string>
+    <string name="titulo_permiso">MuseUI necesita tu permiso</string>
+    <string name="descripcion_permiso">MuseUI necesita algunos permisos para trabajar correctamente</string>
+    <string name="btn_Aceptar_permiso">Aceptar</string>
 </resources>
