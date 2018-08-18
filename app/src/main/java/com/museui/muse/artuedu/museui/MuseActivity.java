@@ -162,6 +162,8 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
     private int moving_on = 0;
     private int moving_status = 0;
+    private int user_move = 0;
+    // 0 = stop, 1 = adelante, 2 = atras, 3 = derecha, 4 = izquierda
 
     //--------------------------------------
     // Ciclo de vida / Código de conexión
@@ -600,10 +602,12 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             if((x - .20) > common_x){
                 if(moving_on == 0){
                     txt_gesture.setText("Adelante");
+                    user_move = 1;
                     moving_status = 1;
                     moving_on = 1;
                 }else{
                     txt_gesture.setText("Stop");
+                    user_move = 0;
                     moving_status = 1;
                     moving_on = 0;
                 }
@@ -619,24 +623,61 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             }else if((x + .20) < common_x){
                 if(moving_on == 0){
                     txt_gesture.setText("Atras");
+                    user_move = 2;
                     moving_status = 1;
                     moving_on = 1;
                 }else{
                     txt_gesture.setText("Stop");
+                    user_move = 0;
                     moving_status = 1;
                     moving_on = 0;
                 }
             }else{
                 if((y - .10) > common_y){
-                    txt_gesture.setText("Derecha");
+                    if(user_move == 0){
+                        //txt_gesture.setText("Derecha");
+                        user_move = 3;
+                        movimiento();
+                    }
                 }else if((y + .10) < common_y){
-                    txt_gesture.setText("Izquierda");
+                    if(user_move == 0){
+                        //txt_gesture.setText("Izquierda");
+                        user_move = 4;
+                        movimiento();
+                    }
                 }else{
-                    txt_gesture.setText("Nada");
+                    //txt_gesture.setText("Nada");
+                    if(user_move == 3 || user_move == 4){
+                        user_move = 0;
+                    }
+                    movimiento();
                 }
             }
         }
 
+    }
+
+    private void movimiento(){
+
+        TextView txt_gesture = (TextView)findViewById(R.id.gesture);
+
+        switch (user_move) {
+            case 0:
+                txt_gesture.setText("Stop");
+                break;
+            case 1:
+                txt_gesture.setText("Adelante");
+                break;
+            case 2:
+                txt_gesture.setText("Atras");
+                break;
+            case 3:
+                txt_gesture.setText("Derecha");
+                break;
+            case 4:
+                txt_gesture.setText("Izquierda");
+                break;
+        }
     }
 
     //--------------------------------------
