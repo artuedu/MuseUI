@@ -3,6 +3,7 @@ package com.museui.muse.artuedu.museui;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.choosemuse.libmuse.Accelerometer;
 import com.choosemuse.libmuse.AnnotationData;
@@ -45,6 +47,7 @@ import com.choosemuse.libmuse.ResultLevel;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -138,6 +141,27 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
      */
 
     private boolean connectionStatus = false;
+
+    /**
+     * Contador para almacenamiento del status del usuario
+     */
+
+    private int no_actualizaciones = 0;
+
+    /**
+     * Variables para almacenamiento de estatus comun de usuario
+     */
+
+    private double common_x = 0;
+    private double common_y = 0;
+    private double common_z = 0;
+
+    /**
+     * Variables para toma de decicion de movimiento
+     */
+
+    private int moving_on = 0;
+    private int moving_status = 0;
 
     //--------------------------------------
     // Ciclo de vida / Código de conexión
@@ -489,12 +513,21 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
      * los buffers.
      */
     private void updateAccel() {
+        if(moving_status == 0){
+            userGesture(accelBuffer[0], accelBuffer[1], accelBuffer[2]);
+        }else if(moving_status == 60){
+            moving_status = 0;
+        }else{
+            moving_status++;
+        }
+        /*
         TextView acc_x = (TextView)findViewById(R.id.acc_x);
         TextView acc_y = (TextView)findViewById(R.id.acc_y);
         TextView acc_z = (TextView)findViewById(R.id.acc_z);
         acc_x.setText(String.format("%6.2f", accelBuffer[0]));
         acc_y.setText(String.format("%6.2f", accelBuffer[1]));
         acc_z.setText(String.format("%6.2f", accelBuffer[2]));
+        */
     }
 
     private void updateEeg() {
@@ -521,6 +554,89 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
         TextView elem4 = (TextView)findViewById(R.id.elem4);
         elem4.setText(String.format("%6.2f", alphaBuffer[3]));
         */
+    }
+
+    //--------------------------------------
+    // Gestos de movimiento y manipulacion de UI
+    /**
+     * Cada vez que los datos del acelerometro son actulizados se aplica el siguiente procesamiento
+     * para determinar si el usuario ha realizado un gesto o continua igual.
+     */
+
+    private void userGesture(double x, double y, double z){
+
+        Context context = getApplicationContext();
+        /*
+        Toast accToast = Toast.makeText(context, "x: " + String.format("%6.2f", x) +
+                                                 " y: " + String.format("%6.2f", y) +
+                                                 " z: " + String.format("%6.2f", z) , Toast.LENGTH_SHORT);
+        accToast.show();
+        */
+
+        TextView txt_gesture = (TextView)findViewById(R.id.gesture);
+
+        if(no_actualizaciones < 120){
+            if(no_actualizaciones == 0){
+                txt_gesture.setText("No realices ningun movimiento");
+            }
+            common_x = (common_x + x) / 2;
+            common_y = (common_y + y) / 2;
+            common_z = (common_z + z) / 2;
+            no_actualizaciones++;
+            if(no_actualizaciones == 120){
+                TextView acc_x = (TextView)findViewById(R.id.acc_x);
+                TextView acc_y = (TextView)findViewById(R.id.acc_y);
+                TextView acc_z = (TextView)findViewById(R.id.acc_z);
+                acc_x.setText(String.format("%6.2f", common_x));
+                acc_y.setText(String.format("%6.2f", common_y));
+                acc_z.setText(String.format("%6.2f", common_z));
+                txt_gesture.setText("Listo");
+            }
+        }else if(no_actualizaciones < 150){
+            //Tiempo de espera
+            no_actualizaciones++;
+        }else{
+            //Gesticulacion
+            if((x - .20) > common_x){
+                if(moving_on == 0){
+                    txt_gesture.setText("Adelante");
+                    moving_status = 1;
+                    moving_on = 1;
+                }else{
+                    txt_gesture.setText("Stop");
+                    moving_status = 1;
+                    moving_on = 0;
+                }
+                /*
+                if((y - .10) > common_y){
+                    txt_gesture.setText("Inclinación Derecha");
+                }else if((y + .10) < common_y){
+                    txt_gesture.setText("Inclinación Izquierda");
+                }else{
+                    txt_gesture.setText("Adelante");
+                }
+                */
+            }else if((x + .20) < common_x){
+                if(moving_on == 0){
+                    txt_gesture.setText("Atras");
+                    moving_status = 1;
+                    moving_on = 1;
+                }else{
+                    txt_gesture.setText("Stop");
+                    moving_status = 1;
+                    moving_on = 0;
+                }
+            }else{
+                if((y - .10) > common_y){
+                    txt_gesture.setText("Derecha");
+                }else if((y + .10) < common_y){
+                    txt_gesture.setText("Izquierda");
+                }else{
+                    txt_gesture.setText("Nada");
+                }
+            }
+        }
+
     }
 
     //--------------------------------------
