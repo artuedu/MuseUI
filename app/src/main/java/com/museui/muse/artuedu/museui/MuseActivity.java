@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -165,6 +166,12 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
     private int user_move = 0;
     // 0 = stop, 1 = adelante, 2 = atras, 3 = derecha, 4 = izquierda
 
+    /**
+    * Image view de imagen a mover
+     */
+    ImageView tv;
+
+
     //--------------------------------------
     // Ciclo de vida / Código de conexión
 
@@ -197,6 +204,9 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
         // Carga e inicializacion de la IU.
         initUI();
+
+        //Asignacion de imagen
+        tv = (ImageView)findViewById(R.id.silla);
 
         // Inicio de un hilo para las operaciones de archivo asincronas.
         // En caso que se quiera guardar o leer información(I/O).
@@ -517,7 +527,7 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
     private void updateAccel() {
         if(moving_status == 0){
             userGesture(accelBuffer[0], accelBuffer[1], accelBuffer[2]);
-        }else if(moving_status == 60){
+        }else if(moving_status == 15){
             moving_status = 0;
         }else{
             moving_status++;
@@ -638,11 +648,15 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                         //txt_gesture.setText("Derecha");
                         user_move = 3;
                         movimiento();
+                    }else{
+                        movimiento();
                     }
                 }else if((y + .10) < common_y){
                     if(user_move == 0){
                         //txt_gesture.setText("Izquierda");
                         user_move = 4;
+                        movimiento();
+                    }else{
                         movimiento();
                     }
                 }else{
@@ -657,9 +671,115 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    //Metodos de movimiento de la imagen
+    public void Derecha()
+    {
+        float r = tv.getRotation();
+        tv.setRotation(r+5);
+
+        if((r+5) == 360)
+        {
+            r = 0;
+            tv.setRotation(r);
+        }
+    }
+
+    public void Izquierda()
+    {
+        float r = tv.getRotation();
+        tv.setRotation(r-5);
+
+        if((r-5) == -360)
+        {
+            r = 0;
+            tv.setRotation(r);
+        }
+    }
+
+    public void Adelante()
+    {
+        float r = tv.getRotation();
+        float x = tv.getX();
+        float y = tv.getY();
+
+        if(r < 0)
+        {
+            r = 360 + r;
+        }
+
+        if(r == 0)
+        {
+            tv.setX(x+5);
+        }
+        else if(r == 90)
+        {
+            tv.setY(y+5);
+        }
+        else if(r == 180)
+        {
+            tv.setX(x-5);
+        }
+        else if(r == 270)
+        {
+            tv.setY(y-5);
+        }
+        else
+        {
+            double angr = Math.toRadians(r);
+
+            double co = (Math.sin(angr)) * 5;
+            double ca = (Math.cos(angr)) * 5;
+
+            tv.setX(x + (float)ca);
+            tv.setY(y + (float)co);
+        }
+    }
+
+    public void Atras()
+    {
+        float r = tv.getRotation();
+        float x = tv.getX();
+        float y = tv.getY();
+
+        if(r < 0)
+        {
+            r = 360 + r;
+        }
+
+        if(r == 0)
+        {
+            tv.setX(x-5);
+        }
+        else if(r == 90)
+        {
+            tv.setY(y-5);
+        }
+        else if(r == 180)
+        {
+            tv.setX(x+5);
+        }
+        else if(r == 270)
+        {
+            tv.setY(y+5);
+        }
+        else
+        {
+            double angr = Math.toRadians(r);
+
+            double co = (Math.sin(angr)) * 5;
+            double ca = (Math.cos(angr)) * 5;
+
+            tv.setX(x - (float)ca);
+            tv.setY(y - (float)co);
+        }
+    }
+
     private void movimiento(){
 
         TextView txt_gesture = (TextView)findViewById(R.id.gesture);
+
+        TextView acc_x = (TextView)findViewById(R.id.acc_x);
+        acc_x.setText(String.format("%d", user_move));
 
         switch (user_move) {
             case 0:
@@ -667,15 +787,19 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case 1:
                 txt_gesture.setText("Adelante");
+                Adelante();
                 break;
             case 2:
                 txt_gesture.setText("Atras");
+                Atras();
                 break;
             case 3:
                 txt_gesture.setText("Derecha");
+                Derecha();
                 break;
             case 4:
                 txt_gesture.setText("Izquierda");
+                Izquierda();
                 break;
         }
     }
