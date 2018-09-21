@@ -164,7 +164,10 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
     private int moving_on = 0;
     private int moving_status = 0;
     private int user_move = 0;
-    // 0 = stop, 1 = adelante, 2 = atras, 3 = derecha, 4 = izquierda
+    // 0 = stop, 1 = adelante, 2 = atras, 3 = derecha, 4 = izquierda, 5 = detener/reanudar
+    private int bandera_det_rea = 0;
+    private int det_rea_status = 0;
+    // 0 = reanudar, 1 = detener
 
     /**
     * Image view de imagen a mover
@@ -284,7 +287,8 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-        } else if (v.getId() == R.id.btn_detener_reanudar) {
+        }
+        /*else if (v.getId() == R.id.btn_detener_reanudar) {
 
             // El usuario ha presionado el oton Detener/Reanudar para detener o reanudar la
             // transmision de datos. Se intercala el estado y se pausa o reanuda la transmision de
@@ -293,7 +297,7 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                 dataTransmission = !dataTransmission;
                 muse.enableDataTransmission(dataTransmission);
             }
-        }
+        }*/
     }
 
     //--------------------------------------
@@ -490,8 +494,8 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
         connectButton.setOnClickListener(this);
         //Button disconnectButton = (Button) findViewById(R.id.btn_desconectar);
         //disconnectButton.setOnClickListener(this);
-        Button pauseButton = (Button) findViewById(R.id.btn_detener_reanudar);
-        pauseButton.setOnClickListener(this);
+        //Button pauseButton = (Button) findViewById(R.id.btn_detener_reanudar);
+        //pauseButton.setOnClickListener(this);
 
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         Spinner musesSpinner = (Spinner) findViewById(R.id.spinner);
@@ -596,12 +600,12 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             common_z = (common_z + z) / 2;
             no_actualizaciones++;
             if(no_actualizaciones == 120){
-                TextView acc_x = (TextView)findViewById(R.id.acc_x);
+                /*TextView acc_x = (TextView)findViewById(R.id.acc_x);
                 TextView acc_y = (TextView)findViewById(R.id.acc_y);
                 TextView acc_z = (TextView)findViewById(R.id.acc_z);
                 acc_x.setText(String.format("%6.2f", common_x));
                 acc_y.setText(String.format("%6.2f", common_y));
-                acc_z.setText(String.format("%6.2f", common_z));
+                acc_z.setText(String.format("%6.2f", common_z));*/
                 txt_gesture.setText("Listo");
             }
         }else if(no_actualizaciones < 150){
@@ -611,33 +615,42 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             //Gesticulacion
             if((x - .20) > common_x){
                 if(moving_on == 0){
-                    txt_gesture.setText("Adelante");
+                    //Adelante
                     user_move = 1;
                     moving_status = 1;
                     moving_on = 1;
                 }else{
-                    txt_gesture.setText("Stop");
+                    //Stop
                     user_move = 0;
                     moving_status = 1;
                     moving_on = 0;
                 }
-                /*
                 if((y - .10) > common_y){
-                    txt_gesture.setText("Inclinación Derecha");
-                }else if((y + .10) < common_y){
-                    txt_gesture.setText("Inclinación Izquierda");
+                    //Detener/Reanudar
+                    moving_status = 1;
+                    if(moving_on == 0){
+                        user_move = 5;
+                        movimiento();
+                    }
+                }
+                /*else if((y + .10) < common_y){
+                    if(user_move == 5){
+                        user_move = 6;
+                        movimiento();
+                    }else{
+                        movimiento();
+                    }
                 }else{
                     txt_gesture.setText("Adelante");
-                }
-                */
+                }*/
             }else if((x + .20) < common_x){
                 if(moving_on == 0){
-                    txt_gesture.setText("Atras");
+                    //Atras
                     user_move = 2;
                     moving_status = 1;
                     moving_on = 1;
                 }else{
-                    txt_gesture.setText("Stop");
+                    //Stop
                     user_move = 0;
                     moving_status = 1;
                     moving_on = 0;
@@ -645,7 +658,7 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             }else{
                 if((y - .10) > common_y){
                     if(user_move == 0){
-                        //txt_gesture.setText("Derecha");
+                        //Derecha
                         user_move = 3;
                         movimiento();
                     }else{
@@ -653,14 +666,14 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }else if((y + .10) < common_y){
                     if(user_move == 0){
-                        //txt_gesture.setText("Izquierda");
+                        //Izquierda
                         user_move = 4;
                         movimiento();
                     }else{
                         movimiento();
                     }
                 }else{
-                    //txt_gesture.setText("Nada");
+                    //Nada
                     if(user_move == 3 || user_move == 4){
                         user_move = 0;
                     }
@@ -675,9 +688,9 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
     public void Derecha()
     {
         float r = tv.getRotation();
-        tv.setRotation(r+5);
+        tv.setRotation(r+1);
 
-        if((r+5) == 360)
+        if((r+1) == 360)
         {
             r = 0;
             tv.setRotation(r);
@@ -687,9 +700,9 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
     public void Izquierda()
     {
         float r = tv.getRotation();
-        tv.setRotation(r-5);
+        tv.setRotation(r-1);
 
-        if((r-5) == -360)
+        if((r-1) == -360)
         {
             r = 0;
             tv.setRotation(r);
@@ -709,26 +722,26 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
         if(r == 0)
         {
-            tv.setX(x+5);
+            tv.setX(x+1);
         }
         else if(r == 90)
         {
-            tv.setY(y+5);
+            tv.setY(y+1);
         }
         else if(r == 180)
         {
-            tv.setX(x-5);
+            tv.setX(x-1);
         }
         else if(r == 270)
         {
-            tv.setY(y-5);
+            tv.setY(y-1);
         }
         else
         {
             double angr = Math.toRadians(r);
 
-            double co = (Math.sin(angr)) * 5;
-            double ca = (Math.cos(angr)) * 5;
+            double co = (Math.sin(angr)) * 1;
+            double ca = (Math.cos(angr)) * 1;
 
             tv.setX(x + (float)ca);
             tv.setY(y + (float)co);
@@ -748,26 +761,26 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
         if(r == 0)
         {
-            tv.setX(x-5);
+            tv.setX(x-1);
         }
         else if(r == 90)
         {
-            tv.setY(y-5);
+            tv.setY(y-1);
         }
         else if(r == 180)
         {
-            tv.setX(x+5);
+            tv.setX(x+1);
         }
         else if(r == 270)
         {
-            tv.setY(y+5);
+            tv.setY(y+1);
         }
         else
         {
             double angr = Math.toRadians(r);
 
-            double co = (Math.sin(angr)) * 5;
-            double ca = (Math.cos(angr)) * 5;
+            double co = (Math.sin(angr)) * 1;
+            double ca = (Math.cos(angr)) * 1;
 
             tv.setX(x - (float)ca);
             tv.setY(y - (float)co);
@@ -778,28 +791,52 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txt_gesture = (TextView)findViewById(R.id.gesture);
 
-        TextView acc_x = (TextView)findViewById(R.id.acc_x);
-        acc_x.setText(String.format("%d", user_move));
+        /*TextView acc_x = (TextView)findViewById(R.id.acc_x);
+        acc_x.setText(String.format("%d", user_move));*/
 
         switch (user_move) {
             case 0:
                 txt_gesture.setText("Stop");
+                bandera_det_rea = 0;
+                if(det_rea_status == 1){
+                    txt_gesture.setText("Inclinate para desbloquear");
+                }
                 break;
             case 1:
-                txt_gesture.setText("Adelante");
-                Adelante();
+                if(det_rea_status == 0){
+                    txt_gesture.setText("Adelante");
+                    Adelante();
+                }
                 break;
             case 2:
-                txt_gesture.setText("Atras");
-                Atras();
+                if(det_rea_status == 0){
+                    txt_gesture.setText("Atras");
+                    Atras();
+                }
                 break;
             case 3:
-                txt_gesture.setText("Derecha");
-                Derecha();
+                if(det_rea_status == 0){
+                    txt_gesture.setText("Derecha");
+                    Derecha();
+                }
                 break;
             case 4:
-                txt_gesture.setText("Izquierda");
-                Izquierda();
+                if(det_rea_status == 0){
+                    txt_gesture.setText("Izquierda");
+                    Izquierda();
+                }
+                break;
+            case 5:
+                if (bandera_det_rea == 0) {
+                    if(det_rea_status == 1){
+                        txt_gesture.setText("Reanudar       ↑");
+                        det_rea_status = 0;
+                    }else{
+                        txt_gesture.setText("Detener        ↑");
+                        det_rea_status = 1;
+                    }
+                    bandera_det_rea = 1;
+                }
                 break;
         }
     }

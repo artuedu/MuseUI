@@ -10,11 +10,12 @@
     android:paddingTop="4dp"
     android:paddingLeft="4dp"
     android:paddingRight="4dp"
-    tools:context=".MuseActivity">
+    tools:context=".MuseActivity"
+    android:background="@drawable/fondo">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,75 +27,22 @@
                 android:id="@+id/spinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@color/white"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_actualizar"
-                android:background="@color/bg_btn_actualizar_conectar"
-                android:src="@drawable/baseline_autorenew_black_36"/>
+                android:background="@color/colorPrimary"
+                android:src="@drawable/refresh"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_conectar_desconectar"
-                android:background="@color/bg_btn_actualizar_conectar"
-                android:src="@drawable/baseline_power_settings_new_black_36"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtv_status_lb"
-                android:layout_weight="1"
-                android:text="@string/tv_status"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtv_status"
-                android:layout_weight="1"
-                android:text="@string/tv_status_value_desconocido"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/acc_x"
-                android:layout_weight="1"
-                android:text="@string/accelerometer_init"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/acc_y"
-                android:layout_weight="1"
-                android:text="@string/accelerometer_init"
-                android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/acc_z"
-                android:layout_weight="1"
-                android:text="@string/accelerometer_init"
-                android:textSize="16sp"/>
+                android:background="@color/colorPrimary"
+                android:src="@drawable/power"/>
 
         </LinearLayout>
 
@@ -102,20 +50,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp">
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:id="@+id/txtv_status_lb"
+                android:layout_weight="1"
+                android:text="@string/tv_status"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/txtv_status"
+                android:layout_weight="1"
+                android:text="@string/tv_status_value_desconocido"
+                android:textSize="16sp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/border">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/gesture"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 tools:text="Gesture"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:background="@drawable/border">
 
             <ImageView
                 android:id="@+id/silla"
@@ -134,18 +110,5 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/btn_detener_reanudar"
-            android:text="@string/btn_detener_reanudar"
-            android:textSize="16sp" />
-
-    </LinearLayout>
 
 </RelativeLayout>
