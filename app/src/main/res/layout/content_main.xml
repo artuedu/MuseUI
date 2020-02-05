@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@drawable/fondo2"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
@@ -19,14 +19,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="61dp"
+        android:layout_marginBottom="102dp"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_comenzar"
-            android:layout_width="178dp"
-            android:layout_height="41dp"
-            android:background="@drawable/boton" />
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_iniciar" />
+
+        <Button
+            android:id="@+id/btn_info"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_saber_mas"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 
@@ -36,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="150dp"
         app:srcCompat="@drawable/logo" />
 
 

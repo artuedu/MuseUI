@@ -11,4 +11,9 @@
     <string name="titulo_permiso">MuseUI necesita tu permiso</string>
     <string name="descripcion_permiso">MuseUI necesita algunos permisos para trabajar correctamente</string>
     <string name="btn_Aceptar_permiso">Aceptar</string>
+    <string name="muse_descripcion">MuseUI es un prototipo de aplicación móvil que pretende sustituir los métodos de entrada convencionales tales como una pantalla táctil o botones físicos, a través de los cuales el usuario se comunica con el dispositivo dando lugar a la interacción humano computadora (HCI), por gestos. Dichos gestos son identificados por una headband (Muse 2016) al realizar movimientos específicos y enviados al dispositivo móvil por medio de una conexión bluetooth.</string>
+    <string name="muse_objetivo">La intención de MuseUI es proponer una interfaz basada en gestos de la cabeza (Head Gesture Based Interaction) que de a los usuarios con discapacidad motora una opción para interactuar con sus dispositivos.</string>
+    <string name="muse_desarrollador">Desarrollador: Arturo Eduardo Gómez Macías</string>
+    <string name="muse_correo">Correo: artuedu@gmail.com</string>
+    <string name="muse_version">MuseUI v2 --/--/----</string>
 </resources>

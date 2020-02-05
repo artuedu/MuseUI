@@ -276,12 +276,19 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                     // Se inicia la conexion con la headband y se recibe datos asincronicamente.
                     muse.runAsynchronously();
 
+                    //Reinicializacion de numeo de actualizaciones para status de usuario
+                    no_actualizaciones = -60;
+
                     //Cambio en el estado de la conexión
                     connectionStatus = true;
                 }
             }else{
                 // El ususario ha presionado el boton Desconectar.
                 // Descnexion de la headband(Muse) seleccionada.
+
+                //Cambio en el estado de la conexión
+                connectionStatus = false;
+
                 if (muse != null) {
                     muse.disconnect();
                 }
@@ -378,8 +385,30 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
 
-                final TextView statusText = (TextView) findViewById(R.id.txtv_status);
-                statusText.setText(status);
+                final TextView statusText = (TextView) findViewById(R.id.status);
+                if(status.equals("CONNECTING -> DISCONNECTED")){
+                    final String status = "Desconectando";
+                    statusText.setText(status);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            final String status = "Desconectado";
+                            statusText.setText(status);
+                        }
+                    }, 2000);
+                }else {
+                    if(status.equals("DISCONNECTED -> CONNECTING")){
+                        final String status = "Conectando";
+                        statusText.setText(status);
+                    }else{
+                        if(status.equals("CONNECTING -> CONNECTED")){
+                            final String status = "Conectado";
+                            statusText.setText(status);
+                        }else{
+                            statusText.setText(status);
+                        }
+                    }
+                }
 
                 //En caso dde mostrar la version al usuario
                 //final MuseVersion museVersion = muse.getMuseVersion();
@@ -497,9 +526,17 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
         //Button pauseButton = (Button) findViewById(R.id.btn_detener_reanudar);
         //pauseButton.setOnClickListener(this);
 
+        //Elemento en spinner
         spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         Spinner musesSpinner = (Spinner) findViewById(R.id.spinner);
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_item);
         musesSpinner.setAdapter(spinnerAdapter);
+        spinnerAdapter.add("Headband");
+
+        //Mensaje de desconectado
+        TextView txt_gesture = (TextView)findViewById(R.id.status);
+        txt_gesture.setText("Desconectado");
+
     }
 
     /**
@@ -589,95 +626,100 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
         accToast.show();
         */
 
-        TextView txt_gesture = (TextView)findViewById(R.id.gesture);
+        TextView txt_gesture = (TextView)findViewById(R.id.status);
 
-        if(no_actualizaciones < 120){
-            if(no_actualizaciones == 0){
-                txt_gesture.setText("No realices ningun movimiento");
-            }
-            common_x = (common_x + x) / 2;
-            common_y = (common_y + y) / 2;
-            common_z = (common_z + z) / 2;
-            no_actualizaciones++;
-            if(no_actualizaciones == 120){
-                /*TextView acc_x = (TextView)findViewById(R.id.acc_x);
-                TextView acc_y = (TextView)findViewById(R.id.acc_y);
-                TextView acc_z = (TextView)findViewById(R.id.acc_z);
-                acc_x.setText(String.format("%6.2f", common_x));
-                acc_y.setText(String.format("%6.2f", common_y));
-                acc_z.setText(String.format("%6.2f", common_z));*/
-                txt_gesture.setText("Listo");
-            }
-        }else if(no_actualizaciones < 150){
-            //Tiempo de espera
-            no_actualizaciones++;
-        }else{
-            //Gesticulacion
-            if((x - .20) > common_x){
-                if(moving_on == 0){
-                    //Adelante
-                    user_move = 1;
-                    moving_status = 1;
-                    moving_on = 1;
-                }else{
-                    //Stop
-                    user_move = 0;
-                    moving_status = 1;
-                    moving_on = 0;
+        if(connectionStatus == true) {
+            if (no_actualizaciones < 120) {
+                if (no_actualizaciones == 0) {
+                    txt_gesture.setText("No realices ningun movimiento");
+                    common_x = x;
+                    common_y = y;
+                    common_z = z;
                 }
-                if((y - .10) > common_y){
-                    //Detener/Reanudar
-                    moving_status = 1;
-                    if(moving_on == 0){
-                        user_move = 5;
-                        movimiento();
-                    }
+                common_x = (common_x + x) / 2;
+                common_y = (common_y + y) / 2;
+                common_z = (common_z + z) / 2;
+                no_actualizaciones++;
+                if (no_actualizaciones == 120) {
+                    /*TextView acc_x = (TextView)findViewById(R.id.acc_x);
+                    TextView acc_y = (TextView)findViewById(R.id.acc_y);
+                    TextView acc_z = (TextView)findViewById(R.id.acc_z);
+                    acc_x.setText(String.format("%6.2f", common_x));
+                    acc_y.setText(String.format("%6.2f", common_y));
+                    acc_z.setText(String.format("%6.2f", common_z));*/
+                    txt_gesture.setText("Listo");
                 }
-                /*else if((y + .10) < common_y){
-                    if(user_move == 5){
-                        user_move = 6;
-                        movimiento();
-                    }else{
-                        movimiento();
-                    }
-                }else{
-                    txt_gesture.setText("Adelante");
-                }*/
-            }else if((x + .20) < common_x){
-                if(moving_on == 0){
-                    //Atras
-                    user_move = 2;
-                    moving_status = 1;
-                    moving_on = 1;
-                }else{
-                    //Stop
-                    user_move = 0;
-                    moving_status = 1;
-                    moving_on = 0;
-                }
-            }else{
-                if((y - .10) > common_y){
-                    if(user_move == 0){
-                        //Derecha
-                        user_move = 3;
-                        movimiento();
-                    }else{
-                        movimiento();
-                    }
-                }else if((y + .10) < common_y){
-                    if(user_move == 0){
-                        //Izquierda
-                        user_move = 4;
-                        movimiento();
-                    }else{
-                        movimiento();
-                    }
-                }else{
-                    //Nada
-                    if(user_move == 3 || user_move == 4){
+            } else if (no_actualizaciones < 150) {
+                //Tiempo de espera
+                no_actualizaciones++;
+            } else {
+                //Gesticulacion
+                if ((x - .20) > common_x) {
+                    if (moving_on == 0) {
+                        //Adelante
+                        user_move = 1;
+                        moving_status = 1;
+                        moving_on = 1;
+                    } else {
+                        //Stop
                         user_move = 0;
+                        moving_status = 1;
+                        moving_on = 0;
                     }
-                    movimiento();
+                    if ((y - .10) > common_y) {
+                        //Detener/Reanudar
+                        moving_status = 1;
+                        if (moving_on == 0) {
+                            user_move = 5;
+                            movimiento();
+                        }
+                    }
+                    /*else if((y + .10) < common_y){
+                        if(user_move == 5){
+                            user_move = 6;
+                            movimiento();
+                        }else{
+                            movimiento();
+                        }
+                    }else{
+                        txt_gesture.setText("Adelante");
+                    }*/
+                } else if ((x + .20) < common_x) {
+                    if (moving_on == 0) {
+                        //Atras
+                        user_move = 2;
+                        moving_status = 1;
+                        moving_on = 1;
+                    } else {
+                        //Stop
+                        user_move = 0;
+                        moving_status = 1;
+                        moving_on = 0;
+                    }
+                } else {
+                    if ((y - .10) > common_y) {
+                        if (user_move == 0) {
+                            //Derecha
+                            user_move = 3;
+                            movimiento();
+                        } else {
+                            movimiento();
+                        }
+                    } else if ((y + .10) < common_y) {
+                        if (user_move == 0) {
+                            //Izquierda
+                            user_move = 4;
+                            movimiento();
+                        } else {
+                            movimiento();
+                        }
+                    } else {
+                        //Nada
+                        if (user_move == 3 || user_move == 4) {
+                            user_move = 0;
+                        }
+                        movimiento();
+                    }
                 }
             }
         }
@@ -789,7 +831,7 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
     private void movimiento(){
 
-        TextView txt_gesture = (TextView)findViewById(R.id.gesture);
+        TextView txt_gesture = (TextView)findViewById(R.id.status);
 
         /*TextView acc_x = (TextView)findViewById(R.id.acc_x);
         acc_x.setText(String.format("%d", user_move));*/
@@ -829,10 +871,10 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
             case 5:
                 if (bandera_det_rea == 0) {
                     if(det_rea_status == 1){
-                        txt_gesture.setText("Reanudar       ↑");
+                        txt_gesture.setText("Reanudar       ↓");
                         det_rea_status = 0;
                     }else{
-                        txt_gesture.setText("Detener        ↑");
+                        txt_gesture.setText("Detener        ↓");
                         det_rea_status = 1;
                     }
                     bandera_det_rea = 1;

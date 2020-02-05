@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         Button btn_comenzar = (Button) findViewById(R.id.btn_comenzar);
 
@@ -32,6 +32,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent museIntent = new Intent(MainActivity.this, MuseActivity.class);
 
                 startActivity(museIntent);
+            }
+        });
+
+        Button btn_saber_mas = (Button) findViewById(R.id.btn_info);
+
+        btn_saber_mas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent infoIntent = new Intent(MainActivity.this, infoActivity.class);
+
+                startActivity(infoIntent);
             }
         });
 

@@ -6,12 +6,12 @@
     android:id="@+id/activity_muse"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="4dp"
-    android:paddingTop="4dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp"
+    android:paddingBottom="0dp"
+    android:paddingTop="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
     tools:context=".MuseActivity"
-    android:background="@drawable/fondo">
+    android:background="@drawable/fondo3">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,92 +21,102 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/colorPrimary">
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
-                android:background="@color/white"/>
+                android:layout_marginLeft="16px"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/spinner_background"/>
 
-            <ImageButton
+            <FrameLayout
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_actualizar"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/refresh"/>
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="4dp">
 
-            <ImageButton
+                <ImageButton
+                    android:id="@+id/btn_actualizar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/btn_actualizar" >
+                </ImageButton>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:clickable="false"
+                    android:text="Actualizar"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGrayDark">
+                </TextView>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_conectar_desconectar"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/power"/>
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="12dp">
+
+                <ImageButton
+                    android:id="@+id/btn_conectar_desconectar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/btn_conectar" >
+                </ImageButton>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:clickable="false"
+                    android:text="Conectar"
+                    android:textSize="12sp"
+                    android:textColor="@color/colorGrayDark">
+                </TextView>
+            </FrameLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:id="@+id/txtv_status_lb"
-                android:layout_weight="1"
-                android:text="@string/tv_status"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtv_status"
-                android:layout_weight="1"
-                android:text="@string/tv_status_value_desconocido"
-                android:textSize="16sp"
-                android:textColor="@color/white"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/border">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/gesture"
-                android:textSize="16sp"
-                tools:text="Gesture"/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/border">
+            android:background="@drawable/border"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp">
 
             <ImageView
                 android:id="@+id/silla"
-                android:layout_width="128dp"
+                android:layout_width="117dp"
                 android:layout_height="68dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/img" />
+                app:srcCompat="@drawable/img"
+                android:layout_centerVertical="true"/>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/status"
+                android:textSize="19sp"
+                tools:text="Status"
+                tools:textColor="@color/colorGrayDark"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
