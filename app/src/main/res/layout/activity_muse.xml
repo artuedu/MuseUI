@@ -100,10 +100,10 @@
 
             <ImageView
                 android:id="@+id/silla"
-                android:layout_width="117dp"
-                android:layout_height="68dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="8dp"
-                app:srcCompat="@drawable/img"
+                app:srcCompat="@drawable/chair"
                 android:layout_centerVertical="true"/>
 
             <TextView

@@ -628,14 +628,20 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
 
         TextView txt_gesture = (TextView)findViewById(R.id.status);
 
+        //Verificacion de dispositivo conectado
         if(connectionStatus == true) {
+            //Comprobacion de numero de actualizaciones para determinacion de posicion inicial de usuario
             if (no_actualizaciones < 120) {
+                //Comprobacion de primera actualizacion
                 if (no_actualizaciones == 0) {
+                    //Notificacion a usuario
                     txt_gesture.setText("No realices ningun movimiento");
+                    //Asignacion de valores iniciales a los tres ejes
                     common_x = x;
                     common_y = y;
                     common_z = z;
                 }
+                //Promedio de nuevo valor de eje con el promedio acumulado
                 common_x = (common_x + x) / 2;
                 common_y = (common_y + y) / 2;
                 common_z = (common_z + z) / 2;
@@ -873,6 +879,8 @@ public class MuseActivity extends AppCompatActivity implements View.OnClickListe
                     if(det_rea_status == 1){
                         txt_gesture.setText("Reanudar       ↓");
                         det_rea_status = 0;
+                        //Reinicializacion de numero de actualizaciones
+                        no_actualizaciones = -60;
                     }else{
                         txt_gesture.setText("Detener        ↓");
                         det_rea_status = 1;
